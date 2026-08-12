@@ -126,8 +126,9 @@ function Index() {
         src: url,
         caption: caption.trim() || "a little moment",
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
-        rotate: [-2.6, 1.7, -1.4, 2.2][i % 4],
-        tape: (["left", "both", "right"] as const)[i % 3],
+        rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
+        tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
+
         alt: caption.trim() || "Uploaded memory photo",
         w: 800,
         h: 1000,
