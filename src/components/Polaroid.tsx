@@ -15,7 +15,6 @@ export function Polaroid({
   src,
   alt,
   caption,
-  date,
   rotate = -2,
   tape = "left",
   width = 800,
@@ -43,9 +42,8 @@ export function Polaroid({
           style={{ filter: "sepia(0.12) saturate(1.05) contrast(0.98)" }}
         />
       </div>
-      <figcaption className="absolute inset-x-3 bottom-3 flex items-end justify-between gap-2">
+      <figcaption className="absolute inset-x-3 bottom-3">
         <p className="font-hand text-xl leading-tight text-foreground">{caption}</p>
-        <p className="font-hand shrink-0 text-base text-primary">{date}</p>
       </figcaption>
     </figure>
   );
