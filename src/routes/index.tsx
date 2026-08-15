@@ -6,7 +6,7 @@ import { DoodleHeart, Sparkle } from "@/components/Doodles";
 import { Polaroid } from "@/components/Polaroid";
 import { CamcorderClip } from "@/components/CamcorderClip";
 
-import memory1 from "@/assets/memory-1.jpg";
+import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/memory-2.jpg";
 import memory3 from "@/assets/memory-3.jpg";
 import memory4 from "@/assets/memory-4.jpg";
