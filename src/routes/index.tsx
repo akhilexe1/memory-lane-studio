@@ -6,7 +6,7 @@ import { DoodleHeart, Sparkle } from "@/components/Doodles";
 import { Polaroid } from "@/components/Polaroid";
 import { CamcorderClip } from "@/components/CamcorderClip";
 
-import memory1 from "@/assets/memory-1.jpg";
+import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/memory-2.jpg";
 import memory3 from "@/assets/memory-3.jpg";
 import memory4 from "@/assets/memory-4.jpg";
@@ -50,12 +50,12 @@ type Memory = {
 const seed: Memory[] = [
   {
     id: "1",
-    src: memory1,
-    caption: "sun-drunk & laughing",
-    date: "jul '99",
+    src: memory1.url,
+    caption: "the way you look at me",
+    date: "aug '26",
     rotate: -2.5,
     tape: "left",
-    alt: "Two friends laughing together on a sunlit beach",
+    alt: "A couple smiling at each other surrounded by lush green plants",
     w: 800,
     h: 1000,
   },
