@@ -1,3 +1,12 @@
+import { z } from "zod";
+
+export const memoryShape = {
+  id: z.string(),
+  caption: z.string(),
+  date: z.string(),
+  description: z.string(),
+};
+
 export type ScrapbookMemory = {
   id: string;
   caption: string;

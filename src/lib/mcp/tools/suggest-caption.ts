@@ -19,6 +19,7 @@ export default defineTool({
       .default("handwritten")
       .describe("Caption tone."),
   },
+  outputSchema: { caption: z.string(), style: z.string() },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: ({ description, style }) => {
     const caption = styles[style](description);
