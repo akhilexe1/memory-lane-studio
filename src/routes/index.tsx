@@ -62,7 +62,7 @@ const seed: Memory[] = [
   {
     id: "2",
     src: memory2.url,
-    caption: "sun-dru",
+    caption: "Her hair that smellls like a expensive\u00a0\n\nlost in her hair , found in her presence\u00a0",
     date: "jun '01",
     rotate: 1.8,
     tape: "both",
