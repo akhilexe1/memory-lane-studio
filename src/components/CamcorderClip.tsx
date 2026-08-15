@@ -37,7 +37,7 @@ export function CamcorderClip({ poster, alt, caption, timestamp, rotate = 1.5 }:
         </div>
       </div>
       <figcaption className="px-3 pt-2 pb-1">
-        <p className="font-hand text-xl text-cream">{caption}</p>
+        <p className="font-hand text-xl text-cream">she won't</p>
       </figcaption>
     </figure>
   );
