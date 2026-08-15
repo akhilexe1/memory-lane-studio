@@ -157,8 +157,8 @@ function Index() {
         <header className="relative pt-20 pb-14 text-center">
           <p className="font-hand text-2xl text-primary">est. a lifetime ago</p>
           <h1 className="font-display mt-1 text-6xl leading-[0.95] font-black tracking-tight text-foreground sm:text-7xl md:text-8xl">
-            Sweetheart
-            <span className="block text-primary italic">Scrapbook</span>
+            YOU ,ME
+            <span className="block text-primary italic">A LIFETIME OF MEMORIES</span>
           </h1>
           <div className="mx-auto mt-6 flex max-w-md items-center gap-3">
             <span className="h-px flex-1 bg-border" />
