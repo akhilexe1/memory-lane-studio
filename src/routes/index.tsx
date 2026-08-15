@@ -10,7 +10,7 @@ import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/20260801_161953.jpg.asset.json";
 import memory3 from "@/assets/memory-3.jpg";
 import memory4 from "@/assets/memory-4.jpg";
-import memory5 from "@/assets/memory-5.jpg";
+import memory5 from "@/assets/20260727_085240.jpg.asset.json";
 import memory6 from "@/assets/memory-6.jpg";
 
 export const Route = createFileRoute("/")({
