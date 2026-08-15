@@ -8,7 +8,7 @@ import { CamcorderClip } from "@/components/CamcorderClip";
 
 import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/20260801_161953.jpg.asset.json";
-import memory3 from "@/assets/memory-3.jpg";
+import memory3 from "@/assets/20260727_162731.jpg.asset.json";
 import memory4 from "@/assets/memory-4.jpg";
 import memory5 from "@/assets/20260727_085240.jpg.asset.json";
 import memory6 from "@/assets/memory-6.jpg";
@@ -72,14 +72,14 @@ const seed: Memory[] = [
   },
   {
     id: "3",
-    src: memory3,
+    src: memory3.url,
     caption: "the long way home",
     date: "sept '98",
     rotate: -1.2,
     tape: "right",
-    alt: "Two people holding hands walking through a golden field at sunset",
+    alt: "A couple wearing white shirts and college lanyards standing together outdoors",
     w: 800,
-    h: 1100,
+    h: 1422,
   },
   {
     id: "4",
@@ -128,7 +128,6 @@ function Index() {
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
         rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
         tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
-
         alt: caption.trim() || "Uploaded memory photo",
         w: 800,
         h: 1000,
@@ -143,7 +142,6 @@ function Index() {
     <div className="grain relative min-h-screen overflow-hidden bg-background">
       <FloatingHearts />
 
-      {/* scattered doodles */}
       <DoodleHeart className="pointer-events-none absolute top-40 left-[4%] hidden size-12 text-primary/35 md:block" />
       <Sparkle className="animate-twinkle pointer-events-none absolute top-24 right-[8%] size-6 text-cherry/50" />
       <Sparkle
@@ -153,7 +151,6 @@ function Index() {
       <DoodleHeart className="pointer-events-none absolute top-[70%] right-[5%] hidden size-16 text-primary/25 md:block" />
 
       <main className="relative z-10 mx-auto max-w-6xl px-5 pb-24">
-        {/* header */}
         <header className="relative pt-20 pb-14 text-center">
           <p className="font-hand text-2xl text-primary">est. a lifetime ago</p>
           <h1 className="font-display mt-1 text-6xl leading-[0.95] font-black tracking-tight text-foreground sm:text-7xl md:text-8xl">
@@ -170,7 +167,6 @@ function Index() {
           </p>
         </header>
 
-        {/* add a memory */}
         <section className="relative mx-auto mb-16 max-w-xl">
           <div
             className="paper relative rounded-[3px] bg-card px-6 py-7"
@@ -208,7 +204,6 @@ function Index() {
           </div>
         </section>
 
-        {/* masonry board */}
         <section className="columns-1 gap-8 sm:columns-2 lg:columns-3">
           {memories.slice(0, 3).map((m) => (
             <Polaroid
@@ -245,7 +240,6 @@ function Index() {
             />
           ))}
 
-          {/* handwritten note card */}
           <div
             className="paper relative mb-8 break-inside-avoid rounded-[3px] bg-beige px-6 py-8"
             style={{ transform: "rotate(1.6deg)" }}
