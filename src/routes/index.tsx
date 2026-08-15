@@ -61,7 +61,7 @@ const seed: Memory[] = [
   },
   {
     id: "2",
-    src: memory2,
+    src: memory2.url,
     caption: "sun-dru",
     date: "jun '01",
     rotate: 1.8,
