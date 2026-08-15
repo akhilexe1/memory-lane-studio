@@ -166,7 +166,7 @@ function Index() {
             <span className="h-px flex-1 bg-border" />
           </div>
           <p className="font-hand mx-auto mt-5 max-w-lg text-2xl text-muted-foreground">
-            a cozy little time capsule of the days we never want to forget
+            Ammuluuuuu - A chapter I'd Relive Forever.......
           </p>
         </header>
 
