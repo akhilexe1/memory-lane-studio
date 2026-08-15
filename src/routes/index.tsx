@@ -7,7 +7,7 @@ import { Polaroid } from "@/components/Polaroid";
 import { CamcorderClip } from "@/components/CamcorderClip";
 
 import memory1 from "@/assets/20260801_170926.jpg.asset.json";
-import memory2 from "@/assets/memory-2.jpg";
+import memory2 from "@/assets/20260801_161953.jpg.asset.json";
 import memory3 from "@/assets/memory-3.jpg";
 import memory4 from "@/assets/memory-4.jpg";
 import memory5 from "@/assets/memory-5.jpg";
@@ -61,7 +61,7 @@ const seed: Memory[] = [
   },
   {
     id: "2",
-    src: memory2,
+    src: memory2.url,
     caption: "sun-dru",
     date: "jun '01",
     rotate: 1.8,
