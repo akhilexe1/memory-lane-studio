@@ -124,7 +124,7 @@ function Index() {
       return {
         id: `${Date.now()}-${i}`,
         src: url,
-        caption: caption.trim() || "sun-dru",
+        caption: caption.trim() || "Her hair that smellls like a expensive\u00a0\n\nlost in her hair , found in her presence\u00a0",
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
         rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
         tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
