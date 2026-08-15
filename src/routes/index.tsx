@@ -10,7 +10,7 @@ import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/20260801_161953.jpg.asset.json";
 import memory3 from "@/assets/memory-3.jpg";
 import memory4 from "@/assets/memory-4.jpg";
-import memory5 from "@/assets/memory-5.jpg";
+import memory5 from "@/assets/20260727_085240.jpg.asset.json";
 import memory6 from "@/assets/memory-6.jpg";
 
 export const Route = createFileRoute("/")({
@@ -94,14 +94,14 @@ const seed: Memory[] = [
   },
   {
     id: "5",
-    src: memory5,
-    caption: "make a wish, sweetheart",
-    date: "nov '00",
+    src: memory5.url,
+    caption: "us under the trees",
+    date: "jul '26",
     rotate: -2,
     tape: "both",
-    alt: "Birthday cake with lit candles in a warm dim room",
+    alt: "A couple standing together under green tree branches",
     w: 800,
-    h: 700,
+    h: 1000,
   },
 ];
 
