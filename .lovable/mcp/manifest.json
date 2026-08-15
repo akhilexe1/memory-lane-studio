@@ -1,0 +1,174 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "memory-lane-studio",
+      "version": "0.1.0",
+      "title": "Memory Lane Studio"
+    },
+    "tools": [
+      {
+        "name": "list_memories",
+        "title": "List memories",
+        "description": "List every memory pinned to the public scrapbook board, with captions and dates.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "memories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "caption": {
+                    "type": "string"
+                  },
+                  "date": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "caption",
+                  "date",
+                  "description"
+                ]
+              }
+            }
+          },
+          "required": [
+            "memories"
+          ]
+        }
+      },
+      {
+        "name": "get_memory",
+        "title": "Get memory",
+        "description": "Get one scrapbook memory by its id.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The memory id, e.g. \"1\"."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "memory": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "caption": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "caption",
+                "date",
+                "description"
+              ]
+            }
+          },
+          "required": [
+            "memory"
+          ]
+        }
+      },
+      {
+        "name": "suggest_caption",
+        "title": "Suggest caption",
+        "description": "Turn a short description of a photo into a scrapbook-style handwritten caption.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "What the photo shows."
+            },
+            "style": {
+              "default": "handwritten",
+              "description": "Caption tone.",
+              "type": "string",
+              "enum": [
+                "handwritten",
+                "retro",
+                "romantic"
+              ]
+            }
+          },
+          "required": [
+            "description"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "caption": {
+              "type": "string"
+            },
+            "style": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "caption",
+            "style"
+          ]
+        }
+      }
+    ]
+  }
+}
