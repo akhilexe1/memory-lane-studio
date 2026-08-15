@@ -62,7 +62,7 @@ const seed: Memory[] = [
   {
     id: "2",
     src: memory2,
-    caption: "cherry season",
+    caption: "sun-dru",
     date: "jun '01",
     rotate: 1.8,
     tape: "both",
