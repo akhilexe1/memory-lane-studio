@@ -6,7 +6,6 @@ import { DoodleHeart, Sparkle } from "@/components/Doodles";
 import { Polaroid } from "@/components/Polaroid";
 import { CamcorderClip } from "@/components/CamcorderClip";
 
-import memory4 from "@/assets/memory-4.jpg";
 import memory6 from "@/assets/memory-6.jpg";
 
 export const Route = createFileRoute("/")({
@@ -50,7 +49,7 @@ const seed: Memory[] = [
   {
     id: "2",
     src: "/memory2.jpg",
-    caption: "lost in her hair , found in her presence\u00a0",
+    caption: "lost in her hair , found in her presence ",
     date: "jun '01",
     rotate: 1.8,
     tape: "both",
@@ -71,14 +70,14 @@ const seed: Memory[] = [
   },
   {
     id: "4",
-    src: memory4,
+    src: "/memory4.jpg",
     caption: "every letter you kept",
     date: "feb '97",
     rotate: 2.4,
     tape: "left",
-    alt: "Handwritten love letters, roses and a heart locket",
-    w: 800,
-    h: 900,
+    alt: "A couple together outdoors wearing matching white and black clothing",
+    w: 1152,
+    h: 2048,
   },
   {
     id: "5",
@@ -112,7 +111,7 @@ function Index() {
       return {
         id: `${Date.now()}-${i}`,
         src: url,
-        caption: caption.trim() || "lost in her hair , found in her presence\u00a0",
+        caption: caption.trim() || "lost in her hair , found in her presence ",
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
         rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
         tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
