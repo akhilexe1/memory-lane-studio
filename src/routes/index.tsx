@@ -62,7 +62,7 @@ const seed: Memory[] = [
   {
     id: "2",
     src: memory2.url,
-    caption: "Her hair that smellls like a expensive\u00a0\n\nlost in her hair , found in her presence\u00a0",
+    caption: "lost in her hair , found in her presence\u00a0",
     date: "jun '01",
     rotate: 1.8,
     tape: "both",
@@ -124,7 +124,7 @@ function Index() {
       return {
         id: `${Date.now()}-${i}`,
         src: url,
-        caption: caption.trim() || "Her hair that smellls like a expensive\u00a0\n\nlost in her hair , found in her presence\u00a0",
+        caption: caption.trim() || "lost in her hair , found in her presence\u00a0",
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
         rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
         tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
