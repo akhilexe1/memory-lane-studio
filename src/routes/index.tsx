@@ -252,8 +252,7 @@ function Index() {
           >
             <span className="washi absolute -top-3 right-6 h-6 w-20 rotate-6" />
             <p className="font-hand text-2xl leading-snug text-foreground">
-              "if I could keep one thing forever, it would be the ordinary
-              afternoons with you."
+              "if I could keep one thing forever, it would be youuuuu and your memories....."
             </p>
             <div className="mt-4 flex items-center gap-2">
               <DoodleHeart className="size-5 text-primary" />
