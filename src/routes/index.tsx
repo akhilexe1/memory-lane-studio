@@ -50,12 +50,12 @@ type Memory = {
 const seed: Memory[] = [
   {
     id: "1",
-    src: memory1,
-    caption: "sun-drunk & laughing",
-    date: "jul '99",
+    src: memory1.url,
+    caption: "the way you look at me",
+    date: "aug '26",
     rotate: -2.5,
     tape: "left",
-    alt: "Two friends laughing together on a sunlit beach",
+    alt: "A couple smiling at each other surrounded by lush green plants",
     w: 800,
     h: 1000,
   },
