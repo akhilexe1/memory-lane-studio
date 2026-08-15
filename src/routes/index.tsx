@@ -73,7 +73,7 @@ const seed: Memory[] = [
   {
     id: "3",
     src: memory3.url,
-    caption: "the long way home",
+    caption: "the world of us together",
     date: "sept '98",
     rotate: -1.2,
     tape: "right",
@@ -222,7 +222,7 @@ function Index() {
           <CamcorderClip
             poster={memory6}
             alt="Sunset sky seen from a car window on a road trip"
-            caption="the road trip tape"
+            caption="she won't"
             timestamp="08 12 1999"
           />
 
