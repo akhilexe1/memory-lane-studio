@@ -94,14 +94,14 @@ const seed: Memory[] = [
   },
   {
     id: "5",
-    src: memory5,
-    caption: "make a wish, sweetheart",
-    date: "nov '00",
+    src: memory5.url,
+    caption: "us under the trees",
+    date: "jul '26",
     rotate: -2,
     tape: "both",
-    alt: "Birthday cake with lit candles in a warm dim room",
+    alt: "A couple standing together under green tree branches",
     w: 800,
-    h: 700,
+    h: 1000,
   },
 ];
 
