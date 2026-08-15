@@ -71,7 +71,7 @@ const seed: Memory[] = [
   {
     id: "4",
     src: "/memory4.jpg",
-    caption: "every letter you kept",
+    caption: "you're the safest place",
     date: "feb '97",
     rotate: 2.4,
     tape: "left",
