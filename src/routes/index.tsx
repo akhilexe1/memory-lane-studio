@@ -8,7 +8,7 @@ import { CamcorderClip } from "@/components/CamcorderClip";
 
 import memory1 from "@/assets/20260801_170926.jpg.asset.json";
 import memory2 from "@/assets/20260801_161953.jpg.asset.json";
-import memory3 from "@/assets/20260727_162731.jpg.asset.json";
+import memory3 from "@/assets/memory3.ts";
 import memory4 from "@/assets/memory-4.jpg";
 import memory5 from "@/assets/20260727_085240.jpg.asset.json";
 import memory6 from "@/assets/memory-6.jpg";
@@ -72,14 +72,14 @@ const seed: Memory[] = [
   },
   {
     id: "3",
-    src: memory3.url,
-    caption: "the world of us together",
+    src: memory3,
+    caption: "the world feels right when i'm with you ♡",
     date: "sept '98",
     rotate: -1.2,
     tape: "right",
-    alt: "A couple wearing white shirts and college lanyards standing together outdoors",
-    w: 800,
-    h: 1422,
+    alt: "A couple posing together in a lush tropical garden",
+    w: 1152,
+    h: 2048,
   },
   {
     id: "4",
