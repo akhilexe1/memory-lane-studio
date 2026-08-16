@@ -11,10 +11,10 @@ import memory6 from "@/assets/memory-6.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sweetheart Scrapbook — A Retro Time Capsule of Memories" },
-      { name: "description", content: "A pastel, retro digital scrapbook for your favourite photos and videos — polaroid frames, washi tape, doodle hearts and handwritten captions." },
-      { property: "og:title", content: "Sweetheart Scrapbook — A Retro Time Capsule of Memories" },
-      { property: "og:description", content: "Keep every cherished photo and clip in a nostalgic, hand-made scrapbook of hearts, film grain and handwritten notes." },
+      { title: "Our Love Journey — A Private World of Memories" },
+      { name: "description", content: "A private digital scrapbook for our favourite memories, photos, letters, milestones, and little moments." },
+      { property: "og:title", content: "Our Love Journey — A Private World of Memories" },
+      { property: "og:description", content: "Some memories are meant to stay between us." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -33,7 +33,14 @@ const seed: Memory[] = [
   { id: "7", src: "/memory7.jpg", caption: "the day we met for the first time", date: "", rotate: 1.6, tape: "right", alt: "A couple taking a selfie together indoors", w: 1024, h: 577 },
 ];
 
+const SECRET_PIN = "0108";
+
 function Index() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [pin, setPin] = useState("");
+  const [pinError, setPinError] = useState("");
+  const [shaking, setShaking] = useState(false);
+  const [unlocking, setUnlocking] = useState(false);
   const [memories, setMemories] = useState<Memory[]>(seed);
   const [caption, setCaption] = useState("");
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -44,7 +51,25 @@ function Index() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const urlsRef = useRef<string[]>([]);
 
+  const unlock = () => {
+    if (pin === SECRET_PIN) {
+      setPinError("");
+      setUnlocking(true);
+      window.setTimeout(() => {
+        setUnlocked(true);
+        setUnlocking(false);
+      }, 700);
+      return;
+    }
+
+    setPinError("Hmm… that isn't our secret code ❤️ Try again.");
+    setShaking(true);
+    setPin("");
+    window.setTimeout(() => setShaking(false), 450);
+  };
+
   useEffect(() => {
+    if (!unlocked) return;
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.55;
@@ -67,21 +92,19 @@ function Index() {
       events.forEach((event) => window.removeEventListener(event, startMusic));
       urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
     };
-  }, []);
+  }, [unlocked]);
 
   const handleVideoPlay = () => {
     const audio = audioRef.current;
     videoSessionActiveRef.current = true;
     setVideoSessionActive(true);
     if (!audio) return;
-    // Capture the state before pausing so the exact playback position is preserved.
     resumeMusicAfterVideoRef.current = !audio.paused;
     audio.pause();
     setMusicPlaying(false);
   };
 
   const handleVideoPause = () => {
-    // Keep background music paused during a paused/stopped video session.
     setMusicPlaying(false);
   };
 
@@ -139,6 +162,54 @@ function Index() {
     setCaption("");
     if (fileRef.current) fileRef.current.value = "";
   };
+
+  if (!unlocked) {
+    return (
+      <main className={`relative min-h-screen overflow-hidden bg-[#f8eee8] text-[#5b1c31] ${shaking ? "animate-pulse" : ""}`}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.75),transparent_28%),radial-gradient(circle_at_80%_70%,rgba(184,79,109,0.12),transparent_30%),linear-gradient(135deg,#fbf3ee,#f4dfe2)]" />
+        <div className="pointer-events-none absolute inset-0 opacity-60">
+          <div className="absolute left-[10%] top-[18%] animate-bounce text-xl text-[#9d6b73]">✦</div>
+          <div className="absolute right-[15%] top-[24%] animate-pulse text-2xl text-[#b7a06f]">♡</div>
+          <div className="absolute left-[18%] bottom-[22%] animate-pulse text-lg text-[#b7a06f]">✧</div>
+          <div className="absolute right-[12%] bottom-[18%] animate-bounce text-xl text-[#9d6b73]">♡</div>
+        </div>
+        <section className={`relative z-10 flex min-h-screen items-center justify-center px-6 py-10 ${unlocking ? "opacity-0 transition-opacity duration-700" : "opacity-100"}`}>
+          <div className={`w-full max-w-md rounded-[2rem] border border-[#b7a06f]/25 bg-[#fffaf7]/80 px-7 py-10 text-center shadow-[0_20px_80px_rgba(91,28,49,0.16)] backdrop-blur-md sm:px-10 ${shaking ? "animate-[wiggle_0.45s_ease-in-out]" : ""}`}>
+            <div className="mx-auto flex size-20 items-center justify-center rounded-full border border-[#b7a06f]/35 bg-[#f7dde1] text-4xl shadow-inner">♥</div>
+            <p className="mt-5 font-hand text-xl text-[#9d6b73]">a little place for us</p>
+            <h1 className="mt-1 font-display text-4xl font-black tracking-tight text-[#5b1c31] sm:text-5xl">Our Little World ❤️</h1>
+            <p className="mx-auto mt-4 max-w-sm font-hand text-xl leading-relaxed text-[#7d4958]">Some memories are meant to stay between us.</p>
+
+            <div className={`mx-auto mt-7 ${shaking ? "animate-[wiggle_0.45s_ease-in-out]" : ""}`}>
+              <label className="sr-only" htmlFor="secret-pin">Our secret PIN</label>
+              <input
+                id="secret-pin"
+                type="password"
+                inputMode="numeric"
+                autoComplete="off"
+                maxLength={6}
+                value={pin}
+                onChange={(e) => {
+                  setPin(e.target.value.replace(/\D/g, "").slice(0, 6));
+                  setPinError("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") unlock();
+                }}
+                placeholder="••••"
+                className="mx-auto block w-full max-w-xs rounded-2xl border border-[#b7a06f]/35 bg-white/80 px-5 py-3 text-center text-2xl tracking-[0.55em] text-[#5b1c31] outline-none ring-[#b05a72]/20 transition focus:ring-4"
+                aria-describedby={pinError ? "pin-error" : undefined}
+              />
+              {pinError && <p id="pin-error" className="mt-3 font-hand text-base text-[#9a304f]">{pinError}</p>}
+            </div>
+
+            <button type="button" onClick={unlock} className="mt-6 w-full rounded-full bg-[#7a263f] px-6 py-3.5 text-sm font-semibold tracking-[0.18em] text-white uppercase shadow-lg shadow-[#7a263f]/20 transition hover:-translate-y-0.5 hover:bg-[#682036]">Enter Our World</button>
+            <p className="mt-5 text-xs tracking-[0.2em] text-[#8d6b74] uppercase">Only we know the way in.</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background">
