@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 const hearts = [
   { left: "6%", size: 22, delay: 0, dur: 22, o: 0.35 },
   { left: "18%", size: 14, delay: 6, dur: 28, o: 0.28 },
@@ -10,57 +8,48 @@ const hearts = [
   { left: "89%", size: 24, delay: 5, dur: 21, o: 0.24 },
 ];
 
+const activeHearts = new Set<HTMLSpanElement>();
+let lastX = -100;
+let lastY = -100;
+let lastSpawn = 0;
+
+const spawnCursorHeart = (x: number, y: number) => {
+  if (activeHearts.size >= 18) return;
+
+  const heart = document.createElement("span");
+  heart.textContent = Math.random() > 0.18 ? "♥" : "♡";
+  const size = 10 + Math.random() * 10;
+  const drift = (Math.random() - 0.5) * 42;
+  const duration = 700 + Math.random() * 500;
+
+  heart.setAttribute("aria-hidden", "true");
+  heart.style.cssText = `position:fixed;left:${x}px;top:${y}px;z-index:9999;pointer-events:none;user-select:none;font-size:${size}px;line-height:1;color:${Math.random() > 0.5 ? "#f06a91" : "#e94f7d"};filter:drop-shadow(0 2px 5px rgba(190,55,100,.2));transform:translate(-50%,-50%) scale(.55) rotate(${(Math.random() - 0.5) * 25}deg);opacity:.95;transition:transform ${duration}ms cubic-bezier(.2,.8,.3,1),opacity ${duration}ms ease-out;`;
+
+  activeHearts.add(heart);
+  document.body.appendChild(heart);
+  requestAnimationFrame(() => {
+    heart.style.transform = `translate(calc(-50% + ${drift}px), -${35 + Math.random() * 30}px) scale(1) rotate(${(Math.random() - 0.5) * 35}deg)`;
+    heart.style.opacity = "0";
+  });
+  window.setTimeout(() => {
+    activeHearts.delete(heart);
+    heart.remove();
+  }, duration + 50);
+};
+
+if (typeof window !== "undefined" && !window.matchMedia("(pointer: coarse)").matches) {
+  window.addEventListener("mousemove", (event: MouseEvent) => {
+    const now = performance.now();
+    const distance = Math.hypot(event.clientX - lastX, event.clientY - lastY);
+    if (now - lastSpawn < 55 || distance < 12) return;
+    lastX = event.clientX;
+    lastY = event.clientY;
+    lastSpawn = now;
+    spawnCursorHeart(event.clientX, event.clientY);
+  }, { passive: true });
+}
+
 export function FloatingHearts() {
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
-    let lastX = -100;
-    let lastY = -100;
-    let lastSpawn = 0;
-    const activeHearts = new Set<HTMLSpanElement>();
-
-    const spawnHeart = (x: number, y: number) => {
-      if (activeHearts.size >= 18) return;
-
-      const heart = document.createElement("span");
-      heart.textContent = Math.random() > 0.18 ? "♥" : "♡";
-      const size = 10 + Math.random() * 10;
-      const drift = (Math.random() - 0.5) * 42;
-      const duration = 700 + Math.random() * 500;
-
-      heart.setAttribute("aria-hidden", "true");
-      heart.style.cssText = `position:fixed;left:${x}px;top:${y}px;z-index:9999;pointer-events:none;user-select:none;font-size:${size}px;line-height:1;color:${Math.random() > 0.5 ? "#f06a91" : "#e94f7d"};filter:drop-shadow(0 2px 5px rgba(190,55,100,.2));transform:translate(-50%,-50%) scale(.55) rotate(${(Math.random() - 0.5) * 25}deg);opacity:.95;transition:transform ${duration}ms cubic-bezier(.2,.8,.3,1),opacity ${duration}ms ease-out;`;
-
-      activeHearts.add(heart);
-      document.body.appendChild(heart);
-      requestAnimationFrame(() => {
-        heart.style.transform = `translate(calc(-50% + ${drift}px), -${35 + Math.random() * 30}px) scale(1) rotate(${(Math.random() - 0.5) * 35}deg)`;
-        heart.style.opacity = "0";
-      });
-      window.setTimeout(() => {
-        activeHearts.delete(heart);
-        heart.remove();
-      }, duration + 50);
-    };
-
-    const onMove = (event: MouseEvent) => {
-      const now = performance.now();
-      const distance = Math.hypot(event.clientX - lastX, event.clientY - lastY);
-      if (now - lastSpawn < 55 || distance < 12) return;
-      lastX = event.clientX;
-      lastY = event.clientY;
-      lastSpawn = now;
-      spawnHeart(event.clientX, event.clientY);
-    };
-
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      activeHearts.forEach((heart) => heart.remove());
-      activeHearts.clear();
-    };
-  }, []);
-
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {hearts.map((h, i) => (
