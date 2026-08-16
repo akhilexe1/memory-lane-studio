@@ -54,7 +54,8 @@ function Index() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.55;
-    const tryAutoplay = async () => {
+
+    const startMusic = async () => {
       try {
         await audio.play();
         setMusicPlaying(true);
@@ -62,8 +63,17 @@ function Index() {
         setMusicPlaying(false);
       }
     };
-    tryAutoplay();
-    return () => urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
+
+    // Try immediately. If the browser blocks autoplay, the first real
+    // interaction with the scrapbook becomes the user gesture that starts it.
+    startMusic();
+    const events = ["pointerdown", "keydown", "touchstart"] as const;
+    events.forEach((event) => window.addEventListener(event, startMusic, { once: true, passive: true }));
+
+    return () => {
+      events.forEach((event) => window.removeEventListener(event, startMusic));
+      urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
+    };
   }, []);
 
   const toggleMusic = async () => {
