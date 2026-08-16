@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import { FloatingHearts } from "@/components/FloatingHearts";
+import { CursorHearts } from "@/components/CursorHearts";
 import { DoodleHeart, Sparkle } from "@/components/Doodles";
 import { Polaroid } from "@/components/Polaroid";
 import { CamcorderClip } from "@/components/CamcorderClip";
@@ -130,6 +131,7 @@ function Index() {
   if (!unlocked) {
     return (
       <main className={`relative min-h-screen overflow-hidden bg-[#f8eee8] text-[#5b1c31] ${shaking ? "animate-pulse" : ""}`}>
+        <CursorHearts />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.75),transparent_28%),radial-gradient(circle_at_80%_70%,rgba(184,79,109,0.12),transparent_30%),linear-gradient(135deg,#fbf3ee,#f4dfe2)]" />
         <div className="pointer-events-none absolute inset-0 opacity-60">
           <div className="absolute left-[10%] top-[18%] animate-bounce text-xl text-[#9d6b73]">✦</div>
@@ -158,7 +160,8 @@ function Index() {
 
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background">
-      <audio ref={audioRef} src="/Adiye-MassTamilan.fm.mp3" loop preload="auto" aria-label="Background music" />
+      <CursorHearts />
+      <audio ref={audioRef} src="/Adiye-MassTamilan.fm3" loop preload="auto" aria-label="Background music" />
       <button type="button" onClick={toggleMusic} aria-label={musicPlaying ? "Pause music" : "Play music"} title={videoSessionActive ? "Music resumes when the video finishes" : musicPlaying ? "Pause music" : "Play music"} className="fixed right-5 bottom-5 z-50 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-card/95 text-xl shadow-lg backdrop-blur transition-transform hover:scale-110 disabled:cursor-not-allowed">{musicPlaying ? "♫" : "▶"}</button>
       <FloatingHearts />
       <DoodleHeart className="pointer-events-none absolute top-40 left-[4%] hidden size-12 text-primary/35 md:block" />
