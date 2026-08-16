@@ -161,7 +161,7 @@ function Index() {
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background">
       <CursorHearts />
-      <audio ref={audioRef} src="/Adiye-MassTamilan.fm3" loop preload="auto" aria-label="Background music" />
+      <audio ref={audioRef} src="/Adiye-MassTamilan.fm.mp3" loop preload="auto" aria-label="Background music" />
       <button type="button" onClick={toggleMusic} aria-label={musicPlaying ? "Pause music" : "Play music"} title={videoSessionActive ? "Music resumes when the video finishes" : musicPlaying ? "Pause music" : "Play music"} className="fixed right-5 bottom-5 z-50 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-card/95 text-xl shadow-lg backdrop-blur transition-transform hover:scale-110 disabled:cursor-not-allowed">{musicPlaying ? "♫" : "▶"}</button>
       <FloatingHearts />
       <DoodleHeart className="pointer-events-none absolute top-40 left-[4%] hidden size-12 text-primary/35 md:block" />
