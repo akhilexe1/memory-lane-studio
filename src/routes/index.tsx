@@ -39,19 +39,27 @@ function Index() {
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [videoSessionActive, setVideoSessionActive] = useState(false);
   const resumeMusicAfterVideoRef = useRef(false);
+  const videoSessionActiveRef = useRef(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const urlsRef = useRef<string[]>([]);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.55;
+
     const startMusic = async () => {
-      if (videoSessionActive || !audio.paused) return;
-      try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
+      if (videoSessionActiveRef.current || !audio.paused) return;
+      try {
+        await audio.play();
+        if (!videoSessionActiveRef.current) setMusicPlaying(true);
+        else audio.pause();
+      } catch {
+        setMusicPlaying(false);
+      }
     };
+
     startMusic();
     const events = ["pointerdown", "keydown", "touchstart"] as const;
     events.forEach((event) => window.addEventListener(event, startMusic, { once: true, passive: true }));
@@ -59,29 +67,33 @@ function Index() {
       events.forEach((event) => window.removeEventListener(event, startMusic));
       urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
     };
-  }, [videoSessionActive]);
+  }, []);
 
   const handleVideoPlay = () => {
     const audio = audioRef.current;
+    videoSessionActiveRef.current = true;
+    setVideoSessionActive(true);
     if (!audio) return;
+    // Capture the state before pausing so the exact playback position is preserved.
     resumeMusicAfterVideoRef.current = !audio.paused;
     audio.pause();
     setMusicPlaying(false);
-    setVideoSessionActive(true);
   };
 
   const handleVideoPause = () => {
-    // Intentionally keep the background music paused. It resumes only on
-    // natural video completion, preventing overlapping audio after a pause.
+    // Keep background music paused during a paused/stopped video session.
     setMusicPlaying(false);
   };
 
   const handleVideoEnded = async () => {
-    setVideoSessionActive(false);
     const shouldResume = resumeMusicAfterVideoRef.current;
     resumeMusicAfterVideoRef.current = false;
+    videoSessionActiveRef.current = false;
+    setVideoSessionActive(false);
+
     const audio = audioRef.current;
     if (!audio || !shouldResume) return;
+
     try {
       await audio.play();
       setMusicPlaying(true);
@@ -92,10 +104,18 @@ function Index() {
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
-    if (!audio || videoSessionActive) return;
+    if (!audio || videoSessionActiveRef.current) return;
     if (audio.paused) {
-      try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
-    } else { audio.pause(); setMusicPlaying(false); }
+      try {
+        await audio.play();
+        setMusicPlaying(true);
+      } catch {
+        setMusicPlaying(false);
+      }
+    } else {
+      audio.pause();
+      setMusicPlaying(false);
+    }
   };
 
   const onFiles = (files: FileList | null) => {
@@ -156,7 +176,7 @@ function Index() {
 
         <section className="columns-1 gap-8 sm:columns-2 lg:columns-3">
           {memories.slice(0, 3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
-          <CamcorderClip ref={videoRef} poster={memory6} alt="Sunset sky seen from a car window on a road trip" caption="she won't" timestamp="08 12 1999" onVideoPlay={handleVideoPlay} onVideoPause={handleVideoPause} onVideoEnded={handleVideoEnded} />
+          <CamcorderClip poster={memory6} alt="Sunset sky seen from a car window on a road trip" caption="she won't" timestamp="08 12 1999" onVideoPlay={handleVideoPlay} onVideoPause={handleVideoPause} onVideoEnded={handleVideoEnded} />
           {memories.slice(3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
           <div className="paper relative mb-8 break-inside-avoid rounded-[3px] bg-beige px-6 py-8" style={{ transform: "rotate(1.6deg)" }}><span className="washi absolute -top-3 right-6 h-6 w-20 rotate-6" /><p className="font-hand text-2xl leading-snug text-foreground">"if I could keep one thing forever, it would be youuuuu and your memories....."</p><div className="mt-4 flex items-center gap-2"><DoodleHeart className="size-5 text-primary" /><Sparkle className="animate-twinkle size-4 text-cherry" /></div></div>
         </section>
