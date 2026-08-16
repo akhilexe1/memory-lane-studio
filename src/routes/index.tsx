@@ -22,17 +22,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Memory = {
-  id: string;
-  src: string;
-  caption: string;
-  date: string;
-  rotate: number;
-  tape: "left" | "right" | "both" | "none";
-  alt: string;
-  w: number;
-  h: number;
-};
+type Memory = { id: string; src: string; caption: string; date: string; rotate: number; tape: "left" | "right" | "both" | "none"; alt: string; w: number; h: number };
 
 const seed: Memory[] = [
   { id: "1", src: "/memory1.jpg", caption: "the way you look at me", date: "aug '26", rotate: -2.5, tape: "left", alt: "A couple smiling at each other surrounded by lush green plants", w: 1153, h: 2048 },
@@ -54,22 +44,12 @@ function Index() {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.55;
-
     const startMusic = async () => {
-      try {
-        await audio.play();
-        setMusicPlaying(true);
-      } catch {
-        setMusicPlaying(false);
-      }
+      try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
     };
-
-    // Try immediately. If the browser blocks autoplay, the first real
-    // interaction with the scrapbook becomes the user gesture that starts it.
     startMusic();
     const events = ["pointerdown", "keydown", "touchstart"] as const;
     events.forEach((event) => window.addEventListener(event, startMusic, { once: true, passive: true }));
-
     return () => {
       events.forEach((event) => window.removeEventListener(event, startMusic));
       urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
@@ -80,16 +60,8 @@ function Index() {
     const audio = audioRef.current;
     if (!audio) return;
     if (audio.paused) {
-      try {
-        await audio.play();
-        setMusicPlaying(true);
-      } catch {
-        setMusicPlaying(false);
-      }
-    } else {
-      audio.pause();
-      setMusicPlaying(false);
-    }
+      try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
+    } else { audio.pause(); setMusicPlaying(false); }
   };
 
   const onFiles = (files: FileList | null) => {
@@ -100,7 +72,7 @@ function Index() {
       return {
         id: `${Date.now()}-${i}`,
         src: url,
-        caption: caption.trim() || "lost in her hair , found in her presence ",
+        caption: caption.trim() || "inkaa memories create chedhamaaaa???",
         date: new Date().toLocaleDateString("en-GB", { month: "short", year: "2-digit" }),
         rotate: [-2.6, 1.7, -1.4, 2.2][i % 4] ?? -2,
         tape: (["left", "both", "right"] as const)[i % 3] ?? "left",
@@ -133,11 +105,7 @@ function Index() {
             YOU ,ME
             <span className="block text-primary italic">A LIFETIME OF MEMORIES</span>
           </h1>
-          <div className="mx-auto mt-6 flex max-w-md items-center gap-3">
-            <span className="h-px flex-1 bg-border" />
-            <DoodleHeart className="size-5 text-primary" />
-            <span className="h-px flex-1 bg-border" />
-          </div>
+          <div className="mx-auto mt-6 flex max-w-md items-center gap-3"><span className="h-px flex-1 bg-border" /><DoodleHeart className="size-5 text-primary" /><span className="h-px flex-1 bg-border" /></div>
           <p className="font-hand mx-auto mt-5 max-w-lg text-2xl text-muted-foreground">Ammuluuuuu - A chapter I'd Relive Forever.......</p>
         </header>
 
@@ -146,11 +114,9 @@ function Index() {
             <span className="washi absolute -top-3 left-1/2 h-6 w-28 -translate-x-1/2 -rotate-3" />
             <h2 className="font-display text-2xl font-bold text-foreground">Pin a new memory</h2>
             <p className="font-hand mt-1 text-xl text-muted-foreground">write a little note, then stick your photo on the board</p>
-            <input value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="that one summer afternoon…" className="font-hand mt-4 w-full border-0 border-b border-border bg-transparent pb-2 text-xl text-foreground outline-none placeholder:text-muted-foreground/60 focus:border-primary" />
+            <input value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="inkaa memories create chedhamaaaa???" className="font-hand mt-4 w-full border-0 border-b border-border bg-transparent pb-2 text-xl text-foreground outline-none placeholder:text-muted-foreground/60 focus:border-primary" />
             <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => onFiles(e.target.files)} />
-            <button type="button" onClick={() => fileRef.current?.click()} className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-primary-foreground uppercase transition-transform duration-200 hover:scale-105">
-              <DoodleHeart className="size-4" /> Add photo
-            </button>
+            <button type="button" onClick={() => fileRef.current?.click()} className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold tracking-wide text-primary-foreground uppercase transition-transform duration-200 hover:scale-105"><DoodleHeart className="size-4" /> Add photo</button>
           </div>
         </section>
 
@@ -158,17 +124,10 @@ function Index() {
           {memories.slice(0, 3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
           <CamcorderClip poster={memory6} alt="Sunset sky seen from a car window on a road trip" caption="she won't" timestamp="08 12 1999" />
           {memories.slice(3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
-          <div className="paper relative mb-8 break-inside-avoid rounded-[3px] bg-beige px-6 py-8" style={{ transform: "rotate(1.6deg)" }}>
-            <span className="washi absolute -top-3 right-6 h-6 w-20 rotate-6" />
-            <p className="font-hand text-2xl leading-snug text-foreground">"if I could keep one thing forever, it would be youuuuu and your memories....."</p>
-            <div className="mt-4 flex items-center gap-2"><DoodleHeart className="size-5 text-primary" /><Sparkle className="animate-twinkle size-4 text-cherry" /></div>
-          </div>
+          <div className="paper relative mb-8 break-inside-avoid rounded-[3px] bg-beige px-6 py-8" style={{ transform: "rotate(1.6deg)" }}><span className="washi absolute -top-3 right-6 h-6 w-20 rotate-6" /><p className="font-hand text-2xl leading-snug text-foreground">"if I could keep one thing forever, it would be youuuuu and your memories....."</p><div className="mt-4 flex items-center gap-2"><DoodleHeart className="size-5 text-primary" /><Sparkle className="animate-twinkle size-4 text-cherry" /></div></div>
         </section>
 
-        <footer className="relative mt-16 text-center">
-          <DoodleHeart className="mx-auto size-7 text-primary/60" />
-          <p className="font-hand mt-2 text-xl text-muted-foreground">kept with love, always</p>
-        </footer>
+        <footer className="relative mt-16 text-center"><DoodleHeart className="mx-auto size-7 text-primary/60" /><p className="font-hand mt-2 text-xl text-muted-foreground">kept with love, always</p></footer>
       </main>
     </div>
   );
