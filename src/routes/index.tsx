@@ -35,73 +35,52 @@ type Memory = {
 };
 
 const seed: Memory[] = [
-  {
-    id: "1",
-    src: "/memory1.jpg",
-    caption: "the way you look at me",
-    date: "aug '26",
-    rotate: -2.5,
-    tape: "left",
-    alt: "A couple smiling at each other surrounded by lush green plants",
-    w: 1153,
-    h: 2048,
-  },
-  {
-    id: "2",
-    src: "/memory2.jpg",
-    caption: "lost in her hair , found in her presence ",
-    date: "jun '01",
-    rotate: 1.8,
-    tape: "both",
-    alt: "A couple together among lush greenery",
-    w: 1153,
-    h: 2048,
-  },
-  {
-    id: "3",
-    src: "/memory3.jpg",
-    caption: "the world feels right when i'm with you ♡",
-    date: "sept '98",
-    rotate: -1.2,
-    tape: "right",
-    alt: "A couple posing together in a lush tropical garden",
-    w: 1152,
-    h: 2048,
-  },
-  {
-    id: "4",
-    src: "/memory4.jpg",
-    caption: "you're the safest place",
-    date: "feb '97",
-    rotate: 2.4,
-    tape: "left",
-    alt: "A couple together outdoors wearing matching white and black clothing",
-    w: 1152,
-    h: 2048,
-  },
-  {
-    id: "5",
-    src: "/memory5.jpg",
-    caption: "us under the trees",
-    date: "jul '26",
-    rotate: -2,
-    tape: "both",
-    alt: "A couple standing together under green tree branches",
-    w: 1153,
-    h: 2048,
-  },
+  { id: "1", src: "/memory1.jpg", caption: "the way you look at me", date: "aug '26", rotate: -2.5, tape: "left", alt: "A couple smiling at each other surrounded by lush green plants", w: 1153, h: 2048 },
+  { id: "2", src: "/memory2.jpg", caption: "lost in her hair , found in her presence ", date: "jun '01", rotate: 1.8, tape: "both", alt: "A couple together among lush greenery", w: 1153, h: 2048 },
+  { id: "3", src: "/memory3.jpg", caption: "the world feels right when i'm with you ♡", date: "sept '98", rotate: -1.2, tape: "right", alt: "A couple posing together in a lush tropical garden", w: 1152, h: 2048 },
+  { id: "4", src: "/memory4.jpg", caption: "you're the safest place", date: "feb '97", rotate: 2.4, tape: "left", alt: "A couple together outdoors wearing matching white and black clothing", w: 1152, h: 2048 },
+  { id: "5", src: "/memory5.jpg", caption: "us under the trees", date: "jul '26", rotate: -2, tape: "both", alt: "A couple standing together under green tree branches", w: 1153, h: 2048 },
 ];
 
 function Index() {
   const [memories, setMemories] = useState<Memory[]>(seed);
   const [caption, setCaption] = useState("");
+  const [musicPlaying, setMusicPlaying] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const urlsRef = useRef<string[]>([]);
 
   useEffect(() => {
-    const urls = urlsRef.current;
-    return () => urls.forEach((u) => URL.revokeObjectURL(u));
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.55;
+    const tryAutoplay = async () => {
+      try {
+        await audio.play();
+        setMusicPlaying(true);
+      } catch {
+        setMusicPlaying(false);
+      }
+    };
+    tryAutoplay();
+    return () => urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
   }, []);
+
+  const toggleMusic = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setMusicPlaying(true);
+      } catch {
+        setMusicPlaying(false);
+      }
+    } else {
+      audio.pause();
+      setMusicPlaying(false);
+    }
+  };
 
   const onFiles = (files: FileList | null) => {
     if (!files?.length) return;
@@ -127,6 +106,10 @@ function Index() {
 
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background">
+      <audio ref={audioRef} src="/Adiye-MassTamilan.fm.mp3" loop preload="auto" aria-label="Background music" />
+      <button type="button" onClick={toggleMusic} aria-label={musicPlaying ? "Pause music" : "Play music"} title={musicPlaying ? "Pause music" : "Play music"} className="fixed right-5 bottom-5 z-50 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-card/95 text-xl shadow-lg backdrop-blur transition-transform hover:scale-110">
+        {musicPlaying ? "♫" : "▶"}
+      </button>
       <FloatingHearts />
       <DoodleHeart className="pointer-events-none absolute top-40 left-[4%] hidden size-12 text-primary/35 md:block" />
       <Sparkle className="animate-twinkle pointer-events-none absolute top-24 right-[8%] size-6 text-cherry/50" />
