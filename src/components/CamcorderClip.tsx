@@ -4,9 +4,12 @@ type Props = {
   caption: string;
   timestamp: string;
   rotate?: number;
+  onVideoPlay?: () => void;
+  onVideoPause?: () => void;
+  onVideoEnded?: () => void;
 };
 
-export function CamcorderClip({ poster, alt, caption, timestamp, rotate = 1.5 }: Props) {
+export function CamcorderClip({ poster, alt, caption, timestamp, rotate = 1.5, onVideoPlay, onVideoPause, onVideoEnded }: Props) {
   return (
     <figure
       className="paper group relative mb-8 break-inside-avoid bg-foreground/90 p-2 transition-all duration-500 hover:z-20 hover:rotate-0 hover:scale-[1.03] hover:paper-lift"
@@ -23,6 +26,9 @@ export function CamcorderClip({ poster, alt, caption, timestamp, rotate = 1.5 }:
           controls
           playsInline
           preload="metadata"
+          onPlay={onVideoPlay}
+          onPause={onVideoPause}
+          onEnded={onVideoEnded}
           className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
           style={{ filter: "saturate(1.15) contrast(1.05) hue-rotate(-4deg)" }}
         />
@@ -37,7 +43,7 @@ export function CamcorderClip({ poster, alt, caption, timestamp, rotate = 1.5 }:
         </div>
       </div>
       <figcaption className="px-3 pt-2 pb-1">
-        <p className="font-hand text-xl text-cream">she won't</p>
+        <p className="font-hand text-xl text-cream">{caption}</p>
       </figcaption>
     </figure>
   );
