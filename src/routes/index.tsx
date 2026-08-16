@@ -25,11 +25,12 @@ export const Route = createFileRoute("/")({
 type Memory = { id: string; src: string; caption: string; date: string; rotate: number; tape: "left" | "right" | "both" | "none"; alt: string; w: number; h: number };
 
 const seed: Memory[] = [
-  { id: "1", src: "/memory1.jpg", caption: "the way you look at me", date: "aug '26", rotate: -2.5, tape: "left", alt: "A couple smiling at each other surrounded by lush green plants", w: 1153, h: 2048 },
-  { id: "2", src: "/memory2.jpg", caption: "lost in her hair , found in her presence ", date: "jun '01", rotate: 1.8, tape: "both", alt: "A couple together among lush greenery", w: 1153, h: 2048 },
-  { id: "3", src: "/memory3.jpg", caption: "the world feels right when i'm with you ♡", date: "sept '98", rotate: -1.2, tape: "right", alt: "A couple posing together in a lush tropical garden", w: 1152, h: 2048 },
-  { id: "4", src: "/memory4.jpg", caption: "you're the safest place", date: "feb '97", rotate: 2.4, tape: "left", alt: "A couple together outdoors wearing matching white and black clothing", w: 1152, h: 2048 },
-  { id: "5", src: "/memory5.jpg", caption: "us under the trees", date: "jul '26", rotate: -2, tape: "both", alt: "A couple standing together under green tree branches", w: 1153, h: 2048 },
+  { id: "1", src: "/memory1.jpg", caption: "the way you look at me", date: "", rotate: -2.5, tape: "left", alt: "A couple smiling at each other surrounded by lush green plants", w: 1153, h: 2048 },
+  { id: "2", src: "/memory2.jpg", caption: "lost in her hair , found in her presence ", date: "", rotate: 1.8, tape: "both", alt: "A couple together among lush greenery", w: 1153, h: 2048 },
+  { id: "3", src: "/memory3.jpg", caption: "the world feels right when i'm with you ♡", date: "", rotate: -1.2, tape: "right", alt: "A couple posing together in a lush tropical garden", w: 1152, h: 2048 },
+  { id: "4", src: "/memory4.jpg", caption: "you're the safest place", date: "", rotate: 2.4, tape: "left", alt: "A couple together outdoors wearing matching white and black clothing", w: 1152, h: 2048 },
+  { id: "5", src: "/memory5.jpg", caption: "us under the trees", date: "", rotate: -2, tape: "both", alt: "A couple standing together under green tree branches", w: 1153, h: 2048 },
+  { id: "7", src: "/memory7.jpg", caption: "the day we met for the first time", date: "", rotate: 1.6, tape: "right", alt: "A couple taking a selfie together indoors", w: 1024, h: 577 },
 ];
 
 function Index() {
