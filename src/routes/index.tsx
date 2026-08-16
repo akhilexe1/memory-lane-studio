@@ -37,8 +37,11 @@ function Index() {
   const [memories, setMemories] = useState<Memory[]>(seed);
   const [caption, setCaption] = useState("");
   const [musicPlaying, setMusicPlaying] = useState(false);
+  const [videoSessionActive, setVideoSessionActive] = useState(false);
+  const resumeMusicAfterVideoRef = useRef(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const urlsRef = useRef<string[]>([]);
 
   useEffect(() => {
@@ -46,6 +49,7 @@ function Index() {
     if (!audio) return;
     audio.volume = 0.55;
     const startMusic = async () => {
+      if (videoSessionActive || !audio.paused) return;
       try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
     };
     startMusic();
@@ -55,11 +59,40 @@ function Index() {
       events.forEach((event) => window.removeEventListener(event, startMusic));
       urlsRef.current.forEach((u) => URL.revokeObjectURL(u));
     };
-  }, []);
+  }, [videoSessionActive]);
+
+  const handleVideoPlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    resumeMusicAfterVideoRef.current = !audio.paused;
+    audio.pause();
+    setMusicPlaying(false);
+    setVideoSessionActive(true);
+  };
+
+  const handleVideoPause = () => {
+    // Intentionally keep the background music paused. It resumes only on
+    // natural video completion, preventing overlapping audio after a pause.
+    setMusicPlaying(false);
+  };
+
+  const handleVideoEnded = async () => {
+    setVideoSessionActive(false);
+    const shouldResume = resumeMusicAfterVideoRef.current;
+    resumeMusicAfterVideoRef.current = false;
+    const audio = audioRef.current;
+    if (!audio || !shouldResume) return;
+    try {
+      await audio.play();
+      setMusicPlaying(true);
+    } catch {
+      setMusicPlaying(false);
+    }
+  };
 
   const toggleMusic = async () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || videoSessionActive) return;
     if (audio.paused) {
       try { await audio.play(); setMusicPlaying(true); } catch { setMusicPlaying(false); }
     } else { audio.pause(); setMusicPlaying(false); }
@@ -90,7 +123,7 @@ function Index() {
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background">
       <audio ref={audioRef} src="/Adiye-MassTamilan.fm.mp3" loop preload="auto" aria-label="Background music" />
-      <button type="button" onClick={toggleMusic} aria-label={musicPlaying ? "Pause music" : "Play music"} title={musicPlaying ? "Pause music" : "Play music"} className="fixed right-5 bottom-5 z-50 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-card/95 text-xl shadow-lg backdrop-blur transition-transform hover:scale-110">
+      <button type="button" onClick={toggleMusic} aria-label={musicPlaying ? "Pause music" : "Play music"} title={videoSessionActive ? "Music resumes when the video finishes" : musicPlaying ? "Pause music" : "Play music"} className="fixed right-5 bottom-5 z-50 flex size-12 items-center justify-center rounded-full border border-primary/20 bg-card/95 text-xl shadow-lg backdrop-blur transition-transform hover:scale-110 disabled:cursor-not-allowed">
         {musicPlaying ? "♫" : "▶"}
       </button>
       <FloatingHearts />
@@ -123,7 +156,7 @@ function Index() {
 
         <section className="columns-1 gap-8 sm:columns-2 lg:columns-3">
           {memories.slice(0, 3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
-          <CamcorderClip poster={memory6} alt="Sunset sky seen from a car window on a road trip" caption="she won't" timestamp="08 12 1999" />
+          <CamcorderClip ref={videoRef} poster={memory6} alt="Sunset sky seen from a car window on a road trip" caption="she won't" timestamp="08 12 1999" onVideoPlay={handleVideoPlay} onVideoPause={handleVideoPause} onVideoEnded={handleVideoEnded} />
           {memories.slice(3).map((m) => <Polaroid key={m.id} src={m.src} alt={m.alt} caption={m.caption} date={m.date} rotate={m.rotate} tape={m.tape} width={m.w} height={m.h} />)}
           <div className="paper relative mb-8 break-inside-avoid rounded-[3px] bg-beige px-6 py-8" style={{ transform: "rotate(1.6deg)" }}><span className="washi absolute -top-3 right-6 h-6 w-20 rotate-6" /><p className="font-hand text-2xl leading-snug text-foreground">"if I could keep one thing forever, it would be youuuuu and your memories....."</p><div className="mt-4 flex items-center gap-2"><DoodleHeart className="size-5 text-primary" /><Sparkle className="animate-twinkle size-4 text-cherry" /></div></div>
         </section>
